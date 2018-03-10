@@ -138,6 +138,8 @@ class ['a] t = object(self)
 
   | CharSetT _ -> acc
 
+  | RegExpT _ -> acc
+
   | ClassT t -> self#type_ cx pole acc t
 
   | InstanceT (static, super, implements, insttype) ->

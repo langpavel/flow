@@ -420,6 +420,18 @@ let rec convert cx tparams_map = Ast.Type.(function
         error_type cx loc (FlowError.ECharSetAnnot loc)
     )
 
+  | "$RegExp" ->
+    check_type_param_arity cx loc typeParameters 1 (fun () ->
+      match typeParameters with
+    | Some [(_, StringLiteral { Ast.StringLiteral.value; _ })] ->
+        let expr = String_utils.RegExp.of_string value in
+        let expr_str = String_utils.RegExp.to_string expr in (* normalize *)
+        let reason = mk_reason (RCustom (spf "regular expression `%s`" expr_str)) loc in
+        DefT (reason, RegExpT expr)
+      | _ ->
+        error_type cx loc (FlowError.ERegExpAnnot loc)
+    )
+
   | "this" ->
     if SMap.mem "this" tparams_map then
       (* We model a this type like a type parameter. The bound on a this

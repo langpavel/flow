@@ -94,6 +94,7 @@ type error_message =
   | EPropertyTypeAnnot of Loc.t
   | EExportsAnnot of Loc.t
   | ECharSetAnnot of Loc.t
+  | ERegExpAnnot of Loc.t
   | EInvalidCharSet of { invalid: reason * InvalidCharSetSet.t; valid: reason; use_op: use_op }
   | EUnsupportedKeyInObjectType of Loc.t
   | EPredAnnot of Loc.t
@@ -320,6 +321,7 @@ let util_use_op_of_msg nope util = function
 | EPropertyTypeAnnot (_)
 | EExportsAnnot (_)
 | ECharSetAnnot (_)
+| ERegExpAnnot (_)
 | EUnsupportedKeyInObjectType (_)
 | EPredAnnot (_)
 | ERefineAnnot (_)
@@ -1427,6 +1429,12 @@ let rec error_of_msg ~trace_reasons ~source_file =
   | ECharSetAnnot loc ->
     mk_error ~trace_infos loc [
       text "Cannot use "; code "$CharSet"; text " because the first type ";
+      text "argument must be a string literal.";
+    ]
+
+  | ERegExpAnnot loc ->
+    mk_error ~trace_infos loc [
+      text "Cannot use "; code "$RegExp"; text " because the first type ";
       text "argument must be a string literal.";
     ]
 

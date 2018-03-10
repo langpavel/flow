@@ -215,6 +215,7 @@ module rec TypeTerm : sig
     (* A subset of StrT that represents a set of characters,
        e.g. RegExp flags *)
     | CharSetT of String_utils.CharSet.t
+    | RegExpT of String_utils.RegExp.t
     (* type aliases *)
     | TypeT of t
 
@@ -2824,6 +2825,7 @@ let string_of_def_ctor = function
   | AnyFunT -> "AnyFunT"
   | BoolT _ -> "BoolT"
   | CharSetT _ -> "CharSetT"
+  | RegExpT _ -> "RegExpT"
   | ClassT _ -> "ClassT"
   | EmptyT -> "EmptyT"
   | FunT _ -> "FunT"

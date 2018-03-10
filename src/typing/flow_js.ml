@@ -1027,6 +1027,7 @@ module ResolvableTypeJob = struct
     | DefT (_, AnyObjT)
     | DefT (_, AnyFunT)
     | DefT (_, CharSetT _)
+    | DefT (_, RegExpT _)
       -> acc
 
     | MergedT (_, uses) ->
